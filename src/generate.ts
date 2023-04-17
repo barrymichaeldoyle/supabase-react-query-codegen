@@ -29,10 +29,29 @@ export default function generateHooks(
   });
 
   const sourceFile = project.addSourceFileAtPath(typesPath);
-  0;
+
   // Find the 'Tables' type alias
-  const tablesType = sourceFile.getTypeAliasOrThrow('Tables');
-  const tablesProperties = tablesType.getType().getProperties();
+  const databaseInterface = sourceFile.getInterfaceOrThrow('Database');
+  const publicProperty = databaseInterface.getPropertyOrThrow('public');
+  const publicType = publicProperty.getType();
+
+  const tablesProperty = publicType
+    .getApparentProperties()
+    .find((property) => property.getName() === 'Tables');
+
+  if (!tablesProperty) {
+    throw new Error('No Tables property found within the Database interface.');
+  }
+
+  const tablesType = project
+    .getProgram()
+    .getTypeChecker()
+    .getTypeAtLocation(tablesProperty.getValueDeclarationOrThrow());
+  const tablesProperties = tablesType.getProperties();
+
+  if (tablesProperties.length === 0) {
+    throw new Error('No tables found within the Tables property.');
+  }
 
   // Iterate through table keys and generate hooks
   const hooks: string[] = [];

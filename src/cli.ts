@@ -3,13 +3,15 @@
 import yargs from 'yargs';
 import generateHooks from './generate';
 
-// Define the command line interface
+console.log('CLI script started');
+
 yargs(process.argv.slice(2))
-  .command(
-    'generate [typesPath] [outputPath] [supabaseClientPath]',
-    'Generate React Query hooks from a types file',
-    (yargs) => {
-      yargs
+  .command({
+    command: 'generate [typesPath] [outputPath] [supabaseClientPath]',
+    aliases: ['g'],
+    describe: 'Generate React Query hooks from a types file',
+    builder: (yargs) => {
+      return yargs
         .positional('typesPath', {
           describe: 'Path to the types file',
           type: 'string',
@@ -23,26 +25,20 @@ yargs(process.argv.slice(2))
           type: 'string',
         });
     },
-    (argv) => {
-      try {
-        // Call the generateHooks function with the provided arguments
-        generateHooks(
-          argv.typesPath as string,
-          argv.outputPath as string,
-          argv.supabaseClientPath as string,
-        );
-        console.log('Hooks generated successfully!');
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Error generating hooks:', error.message);
-        } else {
-          console.error('Error generating hooks:', error);
-        }
-        process.exit(1);
-      }
+    handler: (argv) => {
+      console.log('Inside generate command handler');
+      generateHooks(
+        argv.typesPath as string,
+        argv.outputPath as string,
+        argv.supabaseClientPath as string,
+      );
+      console.log('generateHooks function has been called');
     },
-  )
+  })
   .demandCommand(1, 'You need at least one command')
   .strict()
   .help()
-  .wrap(72);
+  .wrap(72)
+  .parse();
+
+console.log('CLI script finished');
