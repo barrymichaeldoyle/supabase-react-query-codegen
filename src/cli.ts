@@ -24,12 +24,22 @@ yargs(process.argv.slice(2))
         });
     },
     (argv) => {
-      // Call the generateHooks function with the provided arguments
-      generateHooks(
-        argv.typesPath as string,
-        argv.outputPath as string,
-        argv.supabaseClientPath as string,
-      );
+      try {
+        // Call the generateHooks function with the provided arguments
+        generateHooks(
+          argv.typesPath as string,
+          argv.outputPath as string,
+          argv.supabaseClientPath as string,
+        );
+        console.log('Hooks generated successfully!');
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error('Error generating hooks:', error.message);
+        } else {
+          console.error('Error generating hooks:', error);
+        }
+        process.exit(1);
+      }
     },
   )
   .demandCommand(1, 'You need at least one command')

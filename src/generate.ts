@@ -13,6 +13,12 @@ export default function generateHooks(
   outputPath: string,
   supabaseClientPath: string,
 ) {
+  console.log('Generating hooks with the following arguments:', {
+    typesPath,
+    outputPath,
+    supabaseClientPath,
+  });
+
   const project = new Project({
     compilerOptions: {
       allowSyntheticDefaultImports: true,

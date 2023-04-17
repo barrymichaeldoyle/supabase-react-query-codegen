@@ -8,7 +8,11 @@
     "url": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen.git"
   },
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "supabase-react-query-codegen": "./dist/cli.ts"
   },
   "keywords": [],
   "author": "Barry Michael Doyle <barry@barrymichaeldoyle.com>",
