@@ -1,6 +1,6 @@
 {
   "name": "supabase-react-query-codegen",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "CLI tool to automatically generate React Query hooks and TypeScript types for your Supabase Database, streamlining data fetching and enhancing developer productivity.",
   "main": "index.js",
   "repository": {
@@ -14,9 +14,24 @@
   "bin": {
     "supabase-react-query-codegen": "./dist/cli.js"
   },
-  "keywords": [],
+  "keywords": [
+    "code-generation",
+    "react-hooks",
+    "supabase",
+    "typescript",
+    "database",
+    "automatic",
+    "react-query",
+    "crud",
+    "utilities",
+    "developer-tools"
+  ],
   "author": "Barry Michael Doyle <barry@barrymichaeldoyle.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen/issues"
+  },
+  "homepage": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen#readme",
   "devDependencies": {
     "@types/yargs": "^17.0.24",
     "eslint": "^8.38.0",
