@@ -2,11 +2,10 @@
 
 import { ModuleKind, ScriptTarget, Project } from 'ts-morph';
 import fs from 'fs';
+import { toHookName } from './utils/toHookName';
+import { getTablesProperties } from './utils/getTablesProperties';
 
 // Utility function to generate hook names
-function toHookName(tableName: string, operation: string): string {
-  return `use${tableName[0].toUpperCase() + tableName.slice(1)}${operation}`;
-}
 
 export default function generateHooks(
   typesPath: string,
@@ -19,39 +18,7 @@ export default function generateHooks(
     supabaseClientPath,
   });
 
-  const project = new Project({
-    compilerOptions: {
-      allowSyntheticDefaultImports: true,
-      esModuleInterop: true,
-      module: ModuleKind.ESNext,
-      target: ScriptTarget.ESNext,
-    },
-  });
-
-  const sourceFile = project.addSourceFileAtPath(typesPath);
-
-  // Find the 'Tables' type alias
-  const databaseInterface = sourceFile.getInterfaceOrThrow('Database');
-  const publicProperty = databaseInterface.getPropertyOrThrow('public');
-  const publicType = publicProperty.getType();
-
-  const tablesProperty = publicType
-    .getApparentProperties()
-    .find((property) => property.getName() === 'Tables');
-
-  if (!tablesProperty) {
-    throw new Error('No Tables property found within the Database interface.');
-  }
-
-  const tablesType = project
-    .getProgram()
-    .getTypeChecker()
-    .getTypeAtLocation(tablesProperty.getValueDeclarationOrThrow());
-  const tablesProperties = tablesType.getProperties();
-
-  if (tablesProperties.length === 0) {
-    throw new Error('No tables found within the Tables property.');
-  }
+  const tablesProperties = getTablesProperties(typesPath);
 
   // Iterate through table keys and generate hooks
   const hooks: string[] = [];
@@ -61,62 +28,62 @@ export default function generateHooks(
 
     // Generate hooks for fetching, adding, updating, and deleting
     hooks.push(
-      `export function ${toHookName(tableName, 'ById')}(id: string) {
-  return useQuery<Database['public']['Tables']['${tableName}']['Row'], Error>(
-    ['${tableName}', id],
-    async () => {
-      const { data, error } = await supabase
-        .from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}')
-        .select('*')
-        .eq('id', id)
-        .single();
+      `export function ${toHookName(tableName, 'Get')}(id: string) {
+    return useQuery<Database['public']['Tables']['${tableName}']['Row'], Error>(
+      ['${tableName}', id],
+      async () => {
+        const { data, error } = await supabase
+          .from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}')
+          .select('*')
+          .eq('id', id)
+          .single();
 
-      if (error) {
-        throw error;
+        if (error) {
+          throw error;
+        }
+
+        if (!data) {
+          throw new Error('No data found');
+        }
+
+        return data;
+      },
+      {
+        enabled: !!id,
       }
-
-      if (!data) {
-        throw new Error('No data found');
-      }
-
-      return data;
-    },
-    {
-      enabled: !!id,
-    }
-  );
-}`,
-      `export function ${toHookName(tableName, 'FetchAll')}() {
-  return useQuery<Database['public']['Tables']['${tableName}']['Row'][], Error>(['${tableName}'], async () => {
-    const { data, error } = await supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').select();
-    if (error) throw error;
-    return data as Database['public']['Tables']['${tableName}']['Row'][];
-  });
-}`,
+    );
+  }`,
+      `export function ${toHookName(tableName, 'GetAll')}() {
+    return useQuery<Database['public']['Tables']['${tableName}']['Row'][], Error>(['${tableName}'], async () => {
+      const { data, error } = await supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').select();
+      if (error) throw error;
+      return data as Database['public']['Tables']['${tableName}']['Row'][];
+    });
+  }`,
       `export function ${toHookName(tableName, 'Add')}() {
-  const queryClient = useQueryClient();
-  return useMutation((item: Database['public']['Tables']['${tableName}']['Insert']) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').insert(item).single(), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('${tableName}');
-    },
-  });
-}`,
+    const queryClient = useQueryClient();
+    return useMutation((item: Database['public']['Tables']['${tableName}']['Insert']) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').insert(item).single(), {
+      onSuccess: () => {
+        queryClient.invalidateQueries('${tableName}');
+      },
+    });
+  }`,
       `export function ${toHookName(tableName, 'Update')}() {
-  const queryClient = useQueryClient();
-  return useMutation((item: { id: string; changes: Database['public']['Tables']['${tableName}']['Update'] }) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').update(item.changes).eq('id', item.id).single(), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('${tableName}');
-    },
-  });
-}`,
+    const queryClient = useQueryClient();
+    return useMutation((item: { id: string; changes: Database['public']['Tables']['${tableName}']['Update'] }) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').update(item.changes).eq('id', item.id).single(), {
+      onSuccess: () => {
+        queryClient.invalidateQueries('${tableName}');
+      },
+    });
+  }`,
       `export function ${toHookName(tableName, 'Delete')}() {
-  const queryClient = useQueryClient();
-  return useMutation((id: string) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').delete().eq('id', id).single(), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('${tableName}');
-    },
-  });
-}`,
+    const queryClient = useQueryClient();
+    return useMutation((id: string) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').delete().eq('id', id).single(), {
+      onSuccess: () => {
+        queryClient.invalidateQueries('${tableName}');
+      },
+    });
+  }`,
     );
   }
 
