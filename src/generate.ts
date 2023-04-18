@@ -1,6 +1,5 @@
 // src/generate.ts
 
-import { ModuleKind, ScriptTarget, Project } from 'ts-morph';
 import fs from 'fs';
 import { toHookName } from './utils/toHookName';
 import { getTablesProperties } from './utils/getTablesProperties';
@@ -10,7 +9,7 @@ import { getTablesProperties } from './utils/getTablesProperties';
 export default function generateHooks(
   typesPath: string,
   outputPath: string,
-  supabaseClientPath: string,
+  supabaseClientPath: string
 ) {
   console.log('Generating hooks with the following arguments:', {
     typesPath,
@@ -83,7 +82,7 @@ export default function generateHooks(
         queryClient.invalidateQueries('${tableName}');
       },
     });
-  }`,
+  }`
     );
   }
 

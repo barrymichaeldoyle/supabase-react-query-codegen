@@ -30,7 +30,7 @@ yargs(process.argv.slice(2))
       generateHooks(
         argv.typesPath as string,
         argv.outputPath as string,
-        argv.supabaseClientPath as string,
+        argv.supabaseClientPath as string
       );
       console.log('generateHooks function has been called');
     },

@@ -1,6 +1,6 @@
 export function toHookName(tableName: string, operation: string): string {
   const camelCaseTableName = tableName.replace(/(_\w)/g, (match) =>
-    match[1].toUpperCase(),
+    match[1].toUpperCase()
   );
 
   const formattedTableName =
