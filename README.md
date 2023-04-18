@@ -54,19 +54,27 @@ This command will generate React Query hooks based on the Supabase database type
 
 ## Generated Hooks
 
-The following hooks will be generated for each table in your database:
+The following hooks will be generated for each table in your database, if you ahve a table called `todo_items` then you will get this:
 
-- `use<TableName>ById`: Fetch a single row by its ID.
-- `use<TableName>FetchAll`: Fetch all rows in the table.
-- `use<TableName>Add()`: Add a new row to the table.
-- `use<TableName>Update()`: Update an existing row in the table.
-- `use<TableName>Delete()`: Delete a row from the table by its ID.
+- `useGetTodoItem`: Fetch a single row by its ID.
+- `useGetAllTodoItems`: Fetch all rows in the table.
+- `useAddTodoItem`: Add a new row to the table.
+- `useUpdateTodoItem`: Update an existing row in the table.
+- `useDeleteTodoItem`: Delete a row from the table by its ID.
 
-Replace `<TableName>` with the name of the table in PascalCase.
+Note that `todo_items` is converted to PascalCase in the hook names.
+
+> There is currently a bug where certain table names to convert to correct English hook name. E.g. a table called `parties` will translate to `useGetPartie` instead of `useGetParty`. This is a good first issue for anyone to pickup.
 
 ## Contributing
 
 Contributions are welcome! If you find a bug or have a feature request, please open an issue on the GitHub repository. If you'd like to contribute code, feel free to fork the repository and submit a pull request.
+
+### Contributers
+
+Get yourself added to this list by helping me out wherever you can!
+
+- [@barrymichaeldoyle](https://github.com/barrymichaeldoyle) (Founder)
 
 ## License
 
