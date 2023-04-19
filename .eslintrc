@@ -12,6 +12,7 @@
   ],
   "rules": {
     "eqeqeq": "error",
+    "linebreak-style": ["error", "unix"],
     "prettier/prettier": "error",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [

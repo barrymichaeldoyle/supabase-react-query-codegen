@@ -13,4 +13,5 @@
     "typescriptreact"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
+  "files.eol": "\n",
 }
