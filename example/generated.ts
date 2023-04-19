@@ -54,11 +54,11 @@ export type UpdateProfileRequest = {
 export type DeleteProfileRequest = string;
 
 export function useGetTodoItem(id: string) {
-  return useQuery<Database['public']['Tables']['todo_items']['Row'], Error>(
+  return useQuery<GetTodoItemResponse, Error>(
     ['todo_items', id],
     async () => {
       const { data, error } = await supabase
-        .from<Database['public']['Tables']['todo_items']['Row']>('todo_items')
+        .from('todo_items')
         .select('*')
         .eq('id', id)
         .single();
@@ -71,7 +71,7 @@ export function useGetTodoItem(id: string) {
         throw new Error('No data found');
       }
 
-      return data;
+      return data as GetTodoItemResponse;
     },
     {
       enabled: !!id,
@@ -80,26 +80,18 @@ export function useGetTodoItem(id: string) {
 }
 
 export function useGetAllTodoItems() {
-  return useQuery<Database['public']['Tables']['todo_items']['Row'][], Error>(
-    ['todo_items'],
-    async () => {
-      const { data, error } = await supabase
-        .from<Database['public']['Tables']['todo_items']['Row']>('todo_items')
-        .select();
-      if (error) throw error;
-      return data as Database['public']['Tables']['todo_items']['Row'][];
-    }
-  );
+  return useQuery<GetTodoItemResponse[], Error>(['todo_items'], async () => {
+    const { data, error } = await supabase.from('todo_items').select();
+    if (error) throw error;
+    return data as GetTodoItemResponse[];
+  });
 }
 
 export function useAddTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: Database['public']['Tables']['todo_items']['Insert']) =>
-      supabase
-        .from<Database['public']['Tables']['todo_items']['Row']>('todo_items')
-        .insert(item)
-        .single(),
+    (item: GetTodoItemResponse) =>
+      supabase.from('todo_items').insert(item).single(),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('todo_items');
@@ -111,12 +103,9 @@ export function useAddTodoItem() {
 export function useUpdateTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: {
-      id: string;
-      changes: Database['public']['Tables']['todo_items']['Update'];
-    }) =>
+    (item: { id: string; changes: GetTodoItemResponse }) =>
       supabase
-        .from<Database['public']['Tables']['todo_items']['Row']>('todo_items')
+        .from('todo_items')
         .update(item.changes)
         .eq('id', item.id)
         .single(),
@@ -131,12 +120,7 @@ export function useUpdateTodoItem() {
 export function useDeleteTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (id: string) =>
-      supabase
-        .from<Database['public']['Tables']['todo_items']['Row']>('todo_items')
-        .delete()
-        .eq('id', id)
-        .single(),
+    (id: string) => supabase.from('todo_items').delete().eq('id', id).single(),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('todo_items');
@@ -146,11 +130,11 @@ export function useDeleteTodoItem() {
 }
 
 export function useGetProfile(id: string) {
-  return useQuery<Database['public']['Tables']['profiles']['Row'], Error>(
+  return useQuery<GetProfileResponse, Error>(
     ['profiles', id],
     async () => {
       const { data, error } = await supabase
-        .from<Database['public']['Tables']['profiles']['Row']>('profiles')
+        .from('profiles')
         .select('*')
         .eq('id', id)
         .single();
@@ -163,7 +147,7 @@ export function useGetProfile(id: string) {
         throw new Error('No data found');
       }
 
-      return data;
+      return data as GetProfileResponse;
     },
     {
       enabled: !!id,
@@ -172,26 +156,18 @@ export function useGetProfile(id: string) {
 }
 
 export function useGetAllProfiles() {
-  return useQuery<Database['public']['Tables']['profiles']['Row'][], Error>(
-    ['profiles'],
-    async () => {
-      const { data, error } = await supabase
-        .from<Database['public']['Tables']['profiles']['Row']>('profiles')
-        .select();
-      if (error) throw error;
-      return data as Database['public']['Tables']['profiles']['Row'][];
-    }
-  );
+  return useQuery<GetProfileResponse[], Error>(['profiles'], async () => {
+    const { data, error } = await supabase.from('profiles').select();
+    if (error) throw error;
+    return data as GetProfileResponse[];
+  });
 }
 
 export function useAddProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: Database['public']['Tables']['profiles']['Insert']) =>
-      supabase
-        .from<Database['public']['Tables']['profiles']['Row']>('profiles')
-        .insert(item)
-        .single(),
+    (item: GetProfileResponse) =>
+      supabase.from('profiles').insert(item).single(),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('profiles');
@@ -203,15 +179,8 @@ export function useAddProfile() {
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: {
-      id: string;
-      changes: Database['public']['Tables']['profiles']['Update'];
-    }) =>
-      supabase
-        .from<Database['public']['Tables']['profiles']['Row']>('profiles')
-        .update(item.changes)
-        .eq('id', item.id)
-        .single(),
+    (item: { id: string; changes: GetProfileResponse }) =>
+      supabase.from('profiles').update(item.changes).eq('id', item.id).single(),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('profiles');
@@ -223,12 +192,7 @@ export function useUpdateProfile() {
 export function useDeleteProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (id: string) =>
-      supabase
-        .from<Database['public']['Tables']['profiles']['Row']>('profiles')
-        .delete()
-        .eq('id', id)
-        .single(),
+    (id: string) => supabase.from('profiles').delete().eq('id', id).single(),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('profiles');

@@ -31,7 +31,6 @@ yargs(process.argv.slice(2))
         outputPath: argv['outputPath'],
         prettierConfigPath: argv['prettierConfigPath'],
         relativeSupabasePath: argv['relativeSupabasePath'],
-        relativeTypesPath: argv['relativeTypesPath'],
         supabaseExportName: argv['supabaseExportName'],
         typesPath: argv['typesPath'],
       });

@@ -5,12 +5,12 @@ import prettier, { resolveConfig } from 'prettier';
 import { getTablesProperties } from './utils/getTablesProperties';
 import { generateTypes } from './utils/generateTypes/generateTypes';
 import { generateHooks } from './utils/generateHooks/generateHooks';
+import { toTypeName } from './utils/generateTypes/toTypeName';
 
 export interface Config {
   outputPath: string;
   prettierConfigPath: string;
   relativeSupabasePath: string;
-  relativeTypesPath: string;
   supabaseExportName?: string | false;
   typesPath: string;
 }
@@ -18,7 +18,6 @@ export interface Config {
 export default async function generate({
   outputPath,
   prettierConfigPath = '.prettierrc',
-  relativeTypesPath,
   relativeSupabasePath,
   supabaseExportName = 'supabase',
   typesPath,
@@ -26,7 +25,6 @@ export default async function generate({
   console.log('Generating hooks with the following arguments:', {
     outputPath,
     prettierConfigPath,
-    relativeTypesPath,
     relativeSupabasePath,
     supabaseExportName,
     typesPath,
@@ -41,14 +39,19 @@ export default async function generate({
   for (const table of tablesProperties) {
     const tableName = table.getName();
 
-    hooks.push(...generateHooks({ supabaseExportName, tableName }));
+    hooks.push(
+      ...generateHooks({
+        supabaseExportName,
+        tableName,
+        rowType: toTypeName(tableName, 'Get') + 'Response',
+      })
+    );
     types.push(...generateTypes({ table, tableName }));
   }
 
   // Create the output file content with imports and hooks
   const generatedFileContent = `
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Database } from '${relativeTypesPath}';
 import ${
     supabaseExportName ? `{ ${supabaseExportName} }` : 'supabase'
   } from '${relativeSupabasePath}';
