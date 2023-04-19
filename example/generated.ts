@@ -1,20 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Database } from './database.types';
 import { supabase } from './supabase';
 
-export type GetTodoItemRequest = string;
-export type GetTodoItemResponse = {
+export type TodoItem = {
   created_at: string;
   description: string;
   id: string;
   name: string;
 };
-export type GetAllTodoItemsResponse = {
-  created_at: string;
-  description: string;
-  id: string;
-  name: string;
-}[];
 export type AddTodoItemRequest = {
   created_at?: string;
   description: string;
@@ -30,18 +22,8 @@ export type UpdateTodoItemRequest = {
     name?: string;
   };
 };
-export type DeleteTodoItemRequest = string;
-export type GetProfileRequest = string;
-export type GetProfileResponse = {
-  first_name: string;
-  id: string;
-  last_name: string;
-};
-export type GetAllProfilesResponse = {
-  first_name: string;
-  id: string;
-  last_name: string;
-}[];
+
+export type Profile = { first_name: string; id: string; last_name: string };
 export type AddProfileRequest = {
   first_name?: string;
   id: string;
@@ -51,10 +33,9 @@ export type UpdateProfileRequest = {
   id: string;
   changes: { first_name?: string; id?: string; last_name?: string };
 };
-export type DeleteProfileRequest = string;
 
 export function useGetTodoItem(id: string) {
-  return useQuery<GetTodoItemResponse, Error>(
+  return useQuery<TodoItem, Error>(
     ['todo_items', id],
     async () => {
       const { data, error } = await supabase
@@ -71,7 +52,7 @@ export function useGetTodoItem(id: string) {
         throw new Error('No data found');
       }
 
-      return data as GetTodoItemResponse;
+      return data;
     },
     {
       enabled: !!id,
@@ -80,18 +61,30 @@ export function useGetTodoItem(id: string) {
 }
 
 export function useGetAllTodoItems() {
-  return useQuery<GetTodoItemResponse[], Error>(['todo_items'], async () => {
+  return useQuery<TodoItem[], Error>(['todo_items'], async () => {
     const { data, error } = await supabase.from('todo_items').select();
     if (error) throw error;
-    return data as GetTodoItemResponse[];
+    return data as TodoItem[];
   });
 }
 
 export function useAddTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: GetTodoItemResponse) =>
-      supabase.from('todo_items').insert(item).single(),
+    (item: AddTodoItemRequest) => {
+      return new Promise<null>((resolve, reject) => {
+        supabase
+          .from('todo_items')
+          .insert(item)
+          .single()
+          .then(({ error }) => {
+            if (error) {
+              reject(error);
+            }
+            resolve(null);
+          });
+      });
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('todo_items');
@@ -103,12 +96,21 @@ export function useAddTodoItem() {
 export function useUpdateTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: { id: string; changes: GetTodoItemResponse }) =>
-      supabase
-        .from('todo_items')
-        .update(item.changes)
-        .eq('id', item.id)
-        .single(),
+    (item: UpdateTodoItemRequest) => {
+      return new Promise<null>((resolve, reject) => {
+        supabase
+          .from('todo_items')
+          .update(item.changes)
+          .eq('id', item.id)
+          .single()
+          .then(({ error }) => {
+            if (error) {
+              reject(error);
+            }
+            resolve(null);
+          });
+      });
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('todo_items');
@@ -130,7 +132,7 @@ export function useDeleteTodoItem() {
 }
 
 export function useGetProfile(id: string) {
-  return useQuery<GetProfileResponse, Error>(
+  return useQuery<Profile, Error>(
     ['profiles', id],
     async () => {
       const { data, error } = await supabase
@@ -147,7 +149,7 @@ export function useGetProfile(id: string) {
         throw new Error('No data found');
       }
 
-      return data as GetProfileResponse;
+      return data;
     },
     {
       enabled: !!id,
@@ -156,18 +158,30 @@ export function useGetProfile(id: string) {
 }
 
 export function useGetAllProfiles() {
-  return useQuery<GetProfileResponse[], Error>(['profiles'], async () => {
+  return useQuery<Profile[], Error>(['profiles'], async () => {
     const { data, error } = await supabase.from('profiles').select();
     if (error) throw error;
-    return data as GetProfileResponse[];
+    return data as Profile[];
   });
 }
 
 export function useAddProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: GetProfileResponse) =>
-      supabase.from('profiles').insert(item).single(),
+    (item: AddProfileRequest) => {
+      return new Promise<null>((resolve, reject) => {
+        supabase
+          .from('profiles')
+          .insert(item)
+          .single()
+          .then(({ error }) => {
+            if (error) {
+              reject(error);
+            }
+            resolve(null);
+          });
+      });
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('profiles');
@@ -179,8 +193,21 @@ export function useAddProfile() {
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: { id: string; changes: GetProfileResponse }) =>
-      supabase.from('profiles').update(item.changes).eq('id', item.id).single(),
+    (item: UpdateProfileRequest) => {
+      return new Promise<null>((resolve, reject) => {
+        supabase
+          .from('profiles')
+          .update(item.changes)
+          .eq('id', item.id)
+          .single()
+          .then(({ error }) => {
+            if (error) {
+              reject(error);
+            }
+            resolve(null);
+          });
+      });
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('profiles');

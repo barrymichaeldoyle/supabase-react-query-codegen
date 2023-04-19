@@ -5,7 +5,6 @@ import prettier, { resolveConfig } from 'prettier';
 import { getTablesProperties } from './utils/getTablesProperties';
 import { generateTypes } from './utils/generateTypes/generateTypes';
 import { generateHooks } from './utils/generateHooks/generateHooks';
-import { toTypeName } from './utils/generateTypes/toTypeName';
 
 export interface Config {
   outputPath: string;
@@ -43,7 +42,6 @@ export default async function generate({
       ...generateHooks({
         supabaseExportName,
         tableName,
-        rowType: toTypeName(tableName, 'Get') + 'Response',
       })
     );
     types.push(...generateTypes({ table, tableName }));
