@@ -1,100 +1,74 @@
 // src/generate.ts
 
 import fs from 'fs';
-import { toHookName } from './utils/toHookName';
+import prettier, { resolveConfig } from 'prettier';
 import { getTablesProperties } from './utils/getTablesProperties';
+import { generateTypes } from './utils/generateTypes/generateTypes';
+import { generateHooks } from './utils/generateHooks/generateHooks';
 
-// Utility function to generate hook names
+export interface Config {
+  outputPath: string;
+  prettierConfigPath: string;
+  relativeSupabasePath: string;
+  relativeTypesPath: string;
+  supabaseExportName?: string | false;
+  typesPath: string;
+}
 
-export default function generateHooks(
-  typesPath: string,
-  outputPath: string,
-  supabaseClientPath: string
-) {
+export default async function generate({
+  outputPath,
+  prettierConfigPath = '.prettierrc',
+  relativeTypesPath,
+  relativeSupabasePath,
+  supabaseExportName = 'supabase',
+  typesPath,
+}: Config) {
   console.log('Generating hooks with the following arguments:', {
-    typesPath,
     outputPath,
-    supabaseClientPath,
+    prettierConfigPath,
+    relativeTypesPath,
+    relativeSupabasePath,
+    supabaseExportName,
+    typesPath,
   });
 
   const tablesProperties = getTablesProperties(typesPath);
 
   // Iterate through table keys and generate hooks
   const hooks: string[] = [];
+  const types: string[] = [];
 
   for (const table of tablesProperties) {
     const tableName = table.getName();
 
-    // Generate hooks for fetching, adding, updating, and deleting
-    hooks.push(
-      `export function ${toHookName(tableName, 'Get')}(id: string) {
-    return useQuery<Database['public']['Tables']['${tableName}']['Row'], Error>(
-      ['${tableName}', id],
-      async () => {
-        const { data, error } = await supabase
-          .from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}')
-          .select('*')
-          .eq('id', id)
-          .single();
-
-        if (error) {
-          throw error;
-        }
-
-        if (!data) {
-          throw new Error('No data found');
-        }
-
-        return data;
-      },
-      {
-        enabled: !!id,
-      }
-    );
-  }`,
-      `export function ${toHookName(tableName, 'GetAll')}() {
-    return useQuery<Database['public']['Tables']['${tableName}']['Row'][], Error>(['${tableName}'], async () => {
-      const { data, error } = await supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').select();
-      if (error) throw error;
-      return data as Database['public']['Tables']['${tableName}']['Row'][];
-    });
-  }`,
-      `export function ${toHookName(tableName, 'Add')}() {
-    const queryClient = useQueryClient();
-    return useMutation((item: Database['public']['Tables']['${tableName}']['Insert']) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').insert(item).single(), {
-      onSuccess: () => {
-        queryClient.invalidateQueries('${tableName}');
-      },
-    });
-  }`,
-      `export function ${toHookName(tableName, 'Update')}() {
-    const queryClient = useQueryClient();
-    return useMutation((item: { id: string; changes: Database['public']['Tables']['${tableName}']['Update'] }) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').update(item.changes).eq('id', item.id).single(), {
-      onSuccess: () => {
-        queryClient.invalidateQueries('${tableName}');
-      },
-    });
-  }`,
-      `export function ${toHookName(tableName, 'Delete')}() {
-    const queryClient = useQueryClient();
-    return useMutation((id: string) => supabase.from<Database['public']['Tables']['${tableName}']['Row']>('${tableName}').delete().eq('id', id).single(), {
-      onSuccess: () => {
-        queryClient.invalidateQueries('${tableName}');
-      },
-    });
-  }`
-    );
+    hooks.push(...generateHooks({ supabaseExportName, tableName }));
+    types.push(...generateTypes({ table, tableName }));
   }
 
   // Create the output file content with imports and hooks
-  const hooksFileContent = `
+  const generatedFileContent = `
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Database } from '${typesPath}';
-import { supabase } from '${supabaseClientPath}';
+import { Database } from '${relativeTypesPath}';
+import ${
+    supabaseExportName ? `{ ${supabaseExportName} }` : 'supabase'
+  } from '${relativeSupabasePath}';
+
+${types.join('\n')}
 
 ${hooks.join('\n\n')}
 `;
 
+  const prettierConfig = prettierConfigPath
+    ? await resolveConfig(prettierConfigPath)
+    : undefined;
+
+  // Format the file content using Prettier
+  const formattedFileContent = prettier.format(generatedFileContent, {
+    parser: 'typescript',
+    // Additional Prettier options can be added here
+    ...(prettierConfig || {}),
+  });
+
   // Write the output file
-  fs.writeFileSync(outputPath, hooksFileContent);
+  fs.writeFileSync(outputPath, formattedFileContent);
 }

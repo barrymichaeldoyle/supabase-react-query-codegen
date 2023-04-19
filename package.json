@@ -12,6 +12,7 @@
     "lint": "eslint --cache \"src/**/*.{js,ts}\"",
     "lint:fix": "eslint --cache --fix \"src/**/*.{js,ts}\"",
     "test": "jest",
+    "generate": "npm run build && node scripts/generate.js",
     "test:watch": "jest --watch"
   },
   "bin": {
@@ -36,6 +37,7 @@
   },
   "homepage": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen#readme",
   "devDependencies": {
+    "@supabase/supabase-js": "^2.21.0",
     "@types/jest": "^29.5.0",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^5.59.0",

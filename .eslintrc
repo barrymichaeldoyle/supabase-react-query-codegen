@@ -12,6 +12,7 @@
   ],
   "rules": {
     "eqeqeq": "error",
+    "@typescript-eslint/ban-types": "off",
     "linebreak-style": ["error", "unix"],
     "prettier/prettier": "error",
     "unused-imports/no-unused-imports": "error",

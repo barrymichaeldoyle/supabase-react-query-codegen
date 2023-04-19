@@ -27,11 +27,14 @@ yargs(process.argv.slice(2))
     },
     handler: (argv) => {
       console.log('Inside generate command handler');
-      generateHooks(
-        argv.typesPath as string,
-        argv.outputPath as string,
-        argv.supabaseClientPath as string
-      );
+      generateHooks({
+        outputPath: argv['outputPath'],
+        prettierConfigPath: argv['prettierConfigPath'],
+        relativeSupabasePath: argv['relativeSupabasePath'],
+        relativeTypesPath: argv['relativeTypesPath'],
+        supabaseExportName: argv['supabaseExportName'],
+        typesPath: argv['typesPath'],
+      });
       console.log('generateHooks function has been called');
     },
   })
