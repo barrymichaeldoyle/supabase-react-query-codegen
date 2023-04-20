@@ -1,7 +1,6 @@
 // src/generate.ts
 
 import fs from 'fs';
-import prettier, { resolveConfig } from 'prettier';
 import { getTablesProperties } from './utils/getTablesProperties';
 import { generateTypes } from './utils/generateTypes/generateTypes';
 import { generateHooks } from './utils/generateHooks/generateHooks';
@@ -59,17 +58,17 @@ ${types.join('\n')}
 ${hooks.join('\n\n')}
 `;
 
-  const prettierConfig = prettierConfigPath
-    ? await resolveConfig(prettierConfigPath)
-    : undefined;
+  // const prettierConfig = prettierConfigPath
+  //   ? await resolveConfig(prettierConfigPath)
+  //   : undefined;
 
-  // Format the file content using Prettier
-  const formattedFileContent = prettier.format(generatedFileContent, {
-    parser: 'typescript',
-    // Additional Prettier options can be added here
-    ...(prettierConfig || {}),
-  });
+  // // Format the file content using Prettier
+  // const formattedFileContent = prettier.format(generatedFileContent, {
+  //   parser: 'typescript',
+  //   // Additional Prettier options can be added here
+  //   ...(prettierConfig || {}),
+  // });
 
   // Write the output file
-  fs.writeFileSync(outputPath, formattedFileContent);
+  fs.writeFileSync(outputPath, generatedFileContent);
 }

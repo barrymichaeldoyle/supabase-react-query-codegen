@@ -51,20 +51,11 @@ export function useGetTodoItem(id: string) {
         .select('*')
         .eq('id', id)
         .single();
-
-      if (error) {
-        throw error;
-      }
-
-      if (!data) {
-        throw new Error('No data found');
-      }
-
+      if (error) throw error;
+      if (!data) throw new Error('No data found');
       return data;
     },
-    {
-      enabled: !!id,
-    }
+    { enabled: !!id }
   );
 }
 
@@ -79,19 +70,10 @@ export function useGetAllTodoItems() {
 export function useAddTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: AddTodoItemRequest) => {
-      return new Promise<null>((resolve, reject) => {
-        supabase
-          .from('todo_items')
-          .insert(item)
-          .single()
-          .then(({ error }) => {
-            if (error) {
-              reject(error);
-            }
-            resolve(null);
-          });
-      });
+    async (item: AddTodoItemRequest) => {
+      const { error } = await supabase.from('todo_items').insert(item).single();
+      if (error) throw error;
+      return null;
     },
     {
       onSuccess: () => {
@@ -104,20 +86,14 @@ export function useAddTodoItem() {
 export function useUpdateTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: UpdateTodoItemRequest) => {
-      return new Promise<null>((resolve, reject) => {
-        supabase
-          .from('todo_items')
-          .update(item.changes)
-          .eq('id', item.id)
-          .single()
-          .then(({ error }) => {
-            if (error) {
-              reject(error);
-            }
-            resolve(null);
-          });
-      });
+    async (item: UpdateTodoItemRequest) => {
+      const { error } = await supabase
+        .from('todo_items')
+        .update(item.changes)
+        .eq('id', item.id)
+        .single();
+      if (error) throw error;
+      return null;
     },
     {
       onSuccess: () => {
@@ -130,7 +106,15 @@ export function useUpdateTodoItem() {
 export function useDeleteTodoItem() {
   const queryClient = useQueryClient();
   return useMutation(
-    (id: string) => supabase.from('todo_items').delete().eq('id', id).single(),
+    async (id: string) => {
+      const { error } = await supabase
+        .from('todo_items')
+        .delete()
+        .eq('id', id)
+        .single();
+      if (error) throw error;
+      return null;
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('todo_items');
@@ -148,20 +132,11 @@ export function useGetProfile(id: string) {
         .select('*')
         .eq('id', id)
         .single();
-
-      if (error) {
-        throw error;
-      }
-
-      if (!data) {
-        throw new Error('No data found');
-      }
-
+      if (error) throw error;
+      if (!data) throw new Error('No data found');
       return data;
     },
-    {
-      enabled: !!id,
-    }
+    { enabled: !!id }
   );
 }
 
@@ -176,19 +151,10 @@ export function useGetAllProfiles() {
 export function useAddProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: AddProfileRequest) => {
-      return new Promise<null>((resolve, reject) => {
-        supabase
-          .from('profiles')
-          .insert(item)
-          .single()
-          .then(({ error }) => {
-            if (error) {
-              reject(error);
-            }
-            resolve(null);
-          });
-      });
+    async (item: AddProfileRequest) => {
+      const { error } = await supabase.from('profiles').insert(item).single();
+      if (error) throw error;
+      return null;
     },
     {
       onSuccess: () => {
@@ -201,20 +167,14 @@ export function useAddProfile() {
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (item: UpdateProfileRequest) => {
-      return new Promise<null>((resolve, reject) => {
-        supabase
-          .from('profiles')
-          .update(item.changes)
-          .eq('id', item.id)
-          .single()
-          .then(({ error }) => {
-            if (error) {
-              reject(error);
-            }
-            resolve(null);
-          });
-      });
+    async (item: UpdateProfileRequest) => {
+      const { error } = await supabase
+        .from('profiles')
+        .update(item.changes)
+        .eq('id', item.id)
+        .single();
+      if (error) throw error;
+      return null;
     },
     {
       onSuccess: () => {
@@ -227,7 +187,15 @@ export function useUpdateProfile() {
 export function useDeleteProfile() {
   const queryClient = useQueryClient();
   return useMutation(
-    (id: string) => supabase.from('profiles').delete().eq('id', id).single(),
+    async (id: string) => {
+      const { error } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', id)
+        .single();
+      if (error) throw error;
+      return null;
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('profiles');
