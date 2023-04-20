@@ -1,6 +1,6 @@
 [![npm version](https://img.shields.io/npm/v/supabase-react-query-codegen.svg)](https://www.npmjs.com/package/supabase-react-query-codegen) [![Known Vulnerabilities](https://snyk.io/test/github/barrymichaeldoyle/supabase-react-query-codegen/badge.svg)](https://snyk.io/test/github/barrymichaeldoyle/supabase-react-query-codegen) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Warning:** This project is still in development and is not yet ready for production use. Once it is ready, I will release v1 on npm. Expect minor patches to cause breaking changes.
+> **Warning:** This project is still in development and is not yet ready for use. Once it is ready, I will release v1 on npm. Expect every update to be a major change. ETA for v1 is early May 2023.
 
 # Supabase React Query Codegen
 
