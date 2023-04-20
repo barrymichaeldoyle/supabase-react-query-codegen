@@ -47,7 +47,7 @@ export function generateHooks({
     `export function ${toHookName({ operation: 'Add', tableName })}() {
   const queryClient = useQueryClient();
   return useMutation(
-    async (item: ${addRowType}Request) => {
+    async (item: ${addRowType}) => {
       const { error } = await ${supabase}
         .from('${tableName}')
         .insert(item)
@@ -65,7 +65,7 @@ export function generateHooks({
     `export function ${toHookName({ operation: 'Update', tableName })}() {
   const queryClient = useQueryClient();
   return useMutation(
-    async (item: ${updateRowType}Request) => {
+    async (item: ${updateRowType}) => {
       const { error } = await ${supabase}
         .from('${tableName}')
         .update(item.changes)

@@ -1,9 +1,9 @@
 import fs from 'fs';
-import { format, resolveConfig } from 'prettier';
 
 import { getTablesProperties } from './utils/getTablesProperties/getTablesProperties';
 import { generateTypes } from './utils/generateTypes/generateTypes';
 import { generateHooks } from './utils/generateHooks/generateHooks';
+import { formatContent } from './utils/formatContent/formatContent';
 
 export interface Config {
   outputPath: string;
@@ -53,14 +53,9 @@ ${types.join('\n')}
 ${hooks.join('\n\n')}
 `;
 
-  const prettierConfig = prettierConfigPath
-    ? await resolveConfig(prettierConfigPath || '.prettierrc')
-    : undefined;
-
-  // Format the file content using Prettier
-  const formattedFileContent = format(generatedFileContent, {
-    parser: 'typescript',
-    ...(prettierConfig || {}),
+  const formattedFileContent = await formatContent({
+    generatedFileContent,
+    prettierConfigPath,
   });
 
   // Write the output file

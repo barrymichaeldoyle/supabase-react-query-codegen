@@ -1,6 +1,6 @@
 module.exports = {
   outputPath: './example/generated.ts',
-  prettierPath: '.prettierrc',
+  prettierConfigPath: '.prettierrc',
   relativeSupabasePath: './supabase',
   supabaseExportName: 'supabase',
   typesPath: './example/database.types.ts',
