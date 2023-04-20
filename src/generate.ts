@@ -4,6 +4,7 @@ import { getTablesProperties } from './utils/getTablesProperties/getTablesProper
 import { generateTypes } from './utils/generateTypes/generateTypes';
 import { generateHooks } from './utils/generateHooks/generateHooks';
 import { formatContent } from './utils/formatContent/formatContent';
+import { importSupabase } from './utils/importSupabase/importSupabase';
 
 export interface Config {
   outputPath: string;
@@ -44,9 +45,7 @@ export default async function generate({
   // Create the output file content with imports and hooks
   const generatedFileContent = `
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import ${
-    supabaseExportName ? `{ ${supabaseExportName} }` : 'supabase'
-  } from '${relativeSupabasePath}';
+${importSupabase({ relativeSupabasePath, supabaseExportName })})}
 
 ${types.join('\n')}
 
