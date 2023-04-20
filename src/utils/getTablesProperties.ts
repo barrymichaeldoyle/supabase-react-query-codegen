@@ -7,6 +7,7 @@ export function getTablesProperties(typesPath: string) {
       esModuleInterop: true,
       module: ModuleKind.ESNext,
       target: ScriptTarget.ESNext,
+      strictNullChecks: true,
     },
   });
 

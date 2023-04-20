@@ -8,30 +8,38 @@ export type TodoItem = {
   name: string;
 };
 export type AddTodoItemRequest = {
-  created_at?: string;
+  created_at?: string | undefined;
   description: string;
-  id?: string;
+  id?: string | undefined;
   name: string;
 };
 export type UpdateTodoItemRequest = {
   id: string;
   changes: {
-    created_at?: string;
-    description?: string;
-    id?: string;
-    name?: string;
+    created_at?: string | undefined;
+    description?: string | undefined;
+    id?: string | undefined;
+    name?: string | undefined;
   };
 };
 
-export type Profile = { first_name: string; id: string; last_name: string };
-export type AddProfileRequest = {
-  first_name?: string;
+export type Profile = {
+  first_name: string | null;
   id: string;
-  last_name?: string;
+  last_name: string | null;
+};
+export type AddProfileRequest = {
+  first_name?: string | null | undefined;
+  id: string;
+  last_name?: string | null | undefined;
 };
 export type UpdateProfileRequest = {
   id: string;
-  changes: { first_name?: string; id?: string; last_name?: string };
+  changes: {
+    first_name?: string | null | undefined;
+    id?: string | undefined;
+    last_name?: string | null | undefined;
+  };
 };
 
 export function useGetTodoItem(id: string) {
