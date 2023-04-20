@@ -13,9 +13,9 @@ export function generateHooks({
   const hooks: string[] = [];
   const supabase = supabaseExportName || 'supabase';
 
-  const getRowType = toTypeName(tableName, 'Get');
-  const addRowType = toTypeName(tableName, 'Add');
-  const updateRowType = toTypeName(tableName, 'Update');
+  const getRowType = toTypeName({ operation: 'Get', tableName });
+  const addRowType = toTypeName({ operation: 'Add', tableName });
+  const updateRowType = toTypeName({ operation: 'Update', tableName });
 
   hooks.push(
     `export function ${toHookName({

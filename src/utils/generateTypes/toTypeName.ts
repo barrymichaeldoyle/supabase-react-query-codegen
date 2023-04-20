@@ -1,14 +1,20 @@
-export function toTypeName(tableName: string, operation: string): string {
-  const camelCaseTableName = tableName.replace(/(_\w)/g, (match) =>
-    match[1].toUpperCase()
+import { singular } from 'pluralize';
+
+interface ToTypeNameArgs {
+  tableName: string;
+  operation: 'Get' | 'Add' | 'Update';
+}
+
+export function toTypeName({ tableName, operation }: ToTypeNameArgs): string {
+  const pascalCaseTableName = tableName.replace(/(?:^|_)(\w)/g, (_, char) =>
+    char.toUpperCase()
   );
 
-  const formattedTableName =
-    camelCaseTableName[0].toUpperCase() + camelCaseTableName.slice(1);
+  const formattedTableName = singular(pascalCaseTableName);
 
   if (operation === 'Get') {
-    return formattedTableName.slice(0, -1);
+    return formattedTableName;
   }
 
-  return `${operation}${formattedTableName.slice(0, -1)}`;
+  return `${operation}${formattedTableName}Request`;
 }

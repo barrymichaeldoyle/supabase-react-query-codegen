@@ -50,12 +50,18 @@ export function generateTypes({
   const types: string[] = [];
 
   types.push(
-    `export type ${toTypeName(tableName, 'Get')} = ${rowTypeString};`,
-    `export type ${toTypeName(tableName, 'Add')}Request = ${insertTypeString};`,
-    `export type ${toTypeName(
+    `export type ${toTypeName({
+      operation: 'Get',
       tableName,
-      'Update'
-    )}Request = { id: string; changes: ${updateTypeString} };
+    })} = ${rowTypeString};`,
+    `export type ${toTypeName({
+      operation: 'Add',
+      tableName,
+    })} = ${insertTypeString};`,
+    `export type ${toTypeName({
+      operation: 'Update',
+      tableName,
+    })} = { id: string; changes: ${updateTypeString} };
     `
   );
 

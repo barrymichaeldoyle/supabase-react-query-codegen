@@ -1,23 +1,23 @@
-// src/generate.ts
-
 import fs from 'fs';
-import { getTablesProperties } from './utils/getTablesProperties';
+import { format, resolveConfig } from 'prettier';
+
+import { getTablesProperties } from './utils/getTablesProperties/getTablesProperties';
 import { generateTypes } from './utils/generateTypes/generateTypes';
 import { generateHooks } from './utils/generateHooks/generateHooks';
 
 export interface Config {
   outputPath: string;
-  prettierConfigPath: string;
-  relativeSupabasePath: string;
-  supabaseExportName?: string | false;
+  prettierConfigPath?: string;
+  relativeSupabasePath?: string;
+  supabaseExportName?: string;
   typesPath: string;
 }
 
 export default async function generate({
   outputPath,
-  prettierConfigPath = '.prettierrc',
+  prettierConfigPath,
   relativeSupabasePath,
-  supabaseExportName = 'supabase',
+  supabaseExportName,
   typesPath,
 }: Config) {
   console.log('Generating hooks with the following arguments:', {
@@ -37,12 +37,7 @@ export default async function generate({
   for (const table of tablesProperties) {
     const tableName = table.getName();
 
-    hooks.push(
-      ...generateHooks({
-        supabaseExportName,
-        tableName,
-      })
-    );
+    hooks.push(...generateHooks({ supabaseExportName, tableName }));
     types.push(...generateTypes({ table, tableName }));
   }
 
@@ -58,17 +53,16 @@ ${types.join('\n')}
 ${hooks.join('\n\n')}
 `;
 
-  // const prettierConfig = prettierConfigPath
-  //   ? await resolveConfig(prettierConfigPath)
-  //   : undefined;
+  const prettierConfig = prettierConfigPath
+    ? await resolveConfig(prettierConfigPath || '.prettierrc')
+    : undefined;
 
-  // // Format the file content using Prettier
-  // const formattedFileContent = prettier.format(generatedFileContent, {
-  //   parser: 'typescript',
-  //   // Additional Prettier options can be added here
-  //   ...(prettierConfig || {}),
-  // });
+  // Format the file content using Prettier
+  const formattedFileContent = format(generatedFileContent, {
+    parser: 'typescript',
+    ...(prettierConfig || {}),
+  });
 
   // Write the output file
-  fs.writeFileSync(outputPath, generatedFileContent);
+  fs.writeFileSync(outputPath, formattedFileContent);
 }

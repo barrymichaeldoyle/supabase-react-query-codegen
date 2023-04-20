@@ -39,6 +39,7 @@
   "devDependencies": {
     "@supabase/supabase-js": "^2.21.0",
     "@types/jest": "^29.5.0",
+    "@types/pluralize": "^0.0.29",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
@@ -67,5 +68,8 @@
   },
   "lint-staged": {
     "*.{js,ts}": "npm run lint:fix"
+  },
+  "dependencies": {
+    "pluralize": "^8.0.0"
   }
 }

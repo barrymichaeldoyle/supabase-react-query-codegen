@@ -1,19 +1,19 @@
+import { plural, singular } from 'pluralize';
+
 interface ToHookNameArgs {
-  operation: string;
   tableName: string;
+  operation: 'GetAll' | 'Get' | 'Add' | 'Update' | 'Delete';
 }
 
-export function toHookName({ operation, tableName }: ToHookNameArgs): string {
-  const camelCaseTableName = tableName.replace(/(_\w)/g, (match) =>
-    match[1].toUpperCase()
+export function toHookName({ tableName, operation }: ToHookNameArgs): string {
+  const pascalCaseTableName = tableName.replace(/(?:^|_)(\w)/g, (_, char) =>
+    char.toUpperCase()
   );
 
-  const formattedTableName =
-    camelCaseTableName[0].toUpperCase() + camelCaseTableName.slice(1);
+  const singularTableName =
+    operation === 'GetAll'
+      ? plural(pascalCaseTableName)
+      : singular(pascalCaseTableName);
 
-  if (operation !== 'GetAll') {
-    return `use${operation}${formattedTableName.slice(0, -1)}`;
-  } else {
-    return `use${operation}${formattedTableName}`;
-  }
+  return `use${operation}${singularTableName}`;
 }
