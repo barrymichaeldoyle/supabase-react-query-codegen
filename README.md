@@ -52,9 +52,10 @@ supabase-react-query-codegen generate src/types/Database.ts src/hooks/useSupabas
 
 This command will generate React Query hooks based on the Supabase database types in `src/types/Database.ts` and write them to the `src/hooks/useSupabase.ts` file. The hooks will use the Supabase client instance from the `src/utils/supabaseClient.ts` file.
 
+
 ## Generated Hooks
 
-The following hooks will be generated for each table in your database, if you ahve a table called `todo_items` then you will get this:
+The following hooks will be generated for each table in your database, if you have a table called `todo_items` then you will get these hooks:
 
 - `useGetTodoItem`: Fetch a single row by its ID.
 - `useGetAllTodoItems`: Fetch all rows in the table.
@@ -64,7 +65,15 @@ The following hooks will be generated for each table in your database, if you ah
 
 Note that `todo_items` is converted to PascalCase in the hook names.
 
-> There is currently a bug where certain table names to convert to correct English hook name. E.g. a table called `parties` will translate to `useGetPartie` instead of `useGetParty`. This is a good first issue for anyone to pickup.
+## Generated Types
+
+For convience this tool also generates types from your Database schema.
+The following types will be generated for each table in your database, if you have a table called `todo_items` then you will get these types:
+
+- `TodoItem`
+- `AddTodoItemRequest`
+- `UpdateTodoItemRequest`
+
 
 ## Contributing
 
