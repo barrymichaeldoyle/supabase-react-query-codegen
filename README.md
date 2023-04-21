@@ -86,6 +86,8 @@ Contributions are welcome! If you find a bug or have a feature request, please o
 Get yourself added to this list by helping me out wherever you can!
 
 - [@barrymichaeldoyle](https://github.com/barrymichaeldoyle) (Founder)
+- [@SirGoaty](https://github.com/sirgoaty) (Research and Testing)
+- [@WagnerA117](https://github.com/WagnerA117) (Research and Testing)
 
 ## License
 
