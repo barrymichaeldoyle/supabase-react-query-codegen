@@ -1,46 +1,51 @@
 #!/usr/bin/env node
 
 import yargs from 'yargs';
-import generateHooks from './generate';
+import { hideBin } from 'yargs/helpers';
+import fs from 'fs';
 
-console.log('CLI script started');
+import generate, { Config } from './generate';
 
-yargs(process.argv.slice(2))
-  .command({
-    command: 'generate [typesPath] [outputPath] [supabaseClientPath]',
-    aliases: ['g'],
-    describe: 'Generate React Query hooks from a types file',
-    builder: (yargs) => {
+interface CliConfig extends Config {
+  configPath?: string;
+}
+
+// Get the config file from the command line arguments
+const getConfigFile = (configPath: string): Config => {
+  if (fs.existsSync(configPath)) {
+    const configFile = fs.readFileSync(configPath, 'utf-8');
+    return JSON.parse(configFile);
+  }
+  throw new Error(`Config file not found at "${configPath}"`);
+};
+
+yargs(hideBin(process.argv))
+  .command(
+    'generate [configPath]',
+    'Generate hooks',
+    (yargs) => {
       return yargs
-        .positional('typesPath', {
-          describe: 'Path to the types file',
+        .positional('configPath', {
+          describe: 'Path to the configuration file',
           type: 'string',
         })
-        .positional('outputPath', {
-          describe: 'Path to the output hooks file',
-          type: 'string',
-        })
-        .positional('supabaseClientPath', {
-          describe: 'Path to the Supabase client file',
-          type: 'string',
+        .options({
+          outputPath: { type: 'string', demandOption: true },
+          prettierConfigPath: { type: 'string' },
+          relativeSupabasePath: { type: 'string' },
+          supabaseExportName: { type: 'string' },
+          typesPath: { type: 'string', demandOption: true },
         });
     },
-    handler: (argv) => {
-      console.log('Inside generate command handler');
-      generateHooks({
-        outputPath: argv['outputPath'],
-        prettierConfigPath: argv['prettierConfigPath'],
-        relativeSupabasePath: argv['relativeSupabasePath'],
-        supabaseExportName: argv['supabaseExportName'],
-        typesPath: argv['typesPath'],
-      });
-      console.log('generateHooks function has been called');
-    },
-  })
-  .demandCommand(1, 'You need at least one command')
-  .strict()
-  .help()
-  .wrap(72)
-  .parse();
+    async (argv) => {
+      const config: CliConfig = argv.configPath
+        ? getConfigFile(argv.configPath)
+        : argv;
 
-console.log('CLI script finished');
+      await generate(config);
+    }
+  )
+  .help()
+  .alias('help', 'h')
+  .strict()
+  .parse();

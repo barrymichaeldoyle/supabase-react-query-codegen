@@ -12,7 +12,10 @@
     "lint": "eslint --cache \"src/**/*.{js,ts}\"",
     "lint:fix": "eslint --cache --fix \"src/**/*.{js,ts}\"",
     "test": "jest",
-    "generate": "npm run build && node scripts/generate.js",
+    "test-cli": "npm run build && ts-node ./dist/cli.js",
+    "test-cli-config": "npm run test-cli -- generate supabase.react-query-codegen.config.js",
+    "test-cli-options": "npm run test-cli -- generate --outputPath example/generated.ts --typesPath example/database.types.ts --supabaseExportName supabase",
+    "test-generate": "npm run build && node scripts/generate.js",
     "test:watch": "jest --watch"
   },
   "bin": {
