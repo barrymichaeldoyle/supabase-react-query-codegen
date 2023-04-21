@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 import { getTablesProperties } from './utils/getTablesProperties/getTablesProperties';
 import { generateTypes } from './utils/generateTypes/generateTypes';
@@ -29,6 +30,14 @@ export default async function generate({
     typesPath,
   });
 
+  const allowedOutputDir = path.resolve(process.cwd());
+  const resolvedOutputPath = path.resolve(allowedOutputDir, outputPath);
+  if (!resolvedOutputPath.startsWith(allowedOutputDir)) {
+    throw new Error(
+      `Invalid output path: "${outputPath}". Writing files outside of the allowed directory is not allowed.`
+    );
+  }
+
   const tablesProperties = getTablesProperties(typesPath);
 
   // Iterate through table keys and generate hooks
@@ -58,5 +67,5 @@ ${hooks.join('\n\n')}
   });
 
   // Write the output file
-  fs.writeFileSync(outputPath, formattedFileContent);
+  fs.writeFileSync(resolvedOutputPath, formattedFileContent);
 }
