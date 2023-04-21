@@ -22,14 +22,6 @@ export default async function generate({
   supabaseExportName,
   typesPath,
 }: Config) {
-  console.log('Generating hooks with the following arguments:', {
-    outputPath,
-    prettierConfigPath,
-    relativeSupabasePath,
-    supabaseExportName,
-    typesPath,
-  });
-
   const allowedOutputDir = path.resolve(process.cwd());
   const resolvedOutputPath = path.resolve(allowedOutputDir, outputPath);
   if (!resolvedOutputPath.startsWith(allowedOutputDir)) {

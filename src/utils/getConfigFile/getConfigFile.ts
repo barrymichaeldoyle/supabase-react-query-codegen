@@ -16,7 +16,7 @@ export function getConfigFile(configPath: string): Config {
   }
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, security-node/detect-non-literal-require-calls
     const configFile = require(absoluteConfigPath);
     return configFile;
   } catch (error) {

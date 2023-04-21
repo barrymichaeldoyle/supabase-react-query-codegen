@@ -3,12 +3,14 @@
   "extends": [
     "eslint:recommended",
     "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:security-node/recommended"
   ],
   "plugins": [
     "prettier",
     "@typescript-eslint",
-    "unused-imports"
+    "unused-imports",
+    "security-node"
   ],
   "rules": {
     "eqeqeq": "error",
