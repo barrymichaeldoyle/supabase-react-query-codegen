@@ -1,8 +1,9 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-var-requires */
 
+import path from 'path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import fs from 'fs';
 
 import generate, { Config } from './generate';
 
@@ -11,13 +12,17 @@ interface CliConfig extends Config {
 }
 
 // Get the config file from the command line arguments
-const getConfigFile = (configPath: string): Config => {
-  if (fs.existsSync(configPath)) {
-    const configFile = fs.readFileSync(configPath, 'utf-8');
-    return JSON.parse(configFile);
+function getConfigFile(configPath: string): Config {
+  const absoluteConfigPath = path.resolve(process.cwd(), configPath);
+  try {
+    const configFile = require(absoluteConfigPath);
+    return configFile;
+  } catch (error) {
+    throw new Error(
+      `Config file not found or could not be loaded at "${absoluteConfigPath}"`
+    );
   }
-  throw new Error(`Config file not found at "${configPath}"`);
-};
+}
 
 yargs(hideBin(process.argv))
   .command(
@@ -30,17 +35,25 @@ yargs(hideBin(process.argv))
           type: 'string',
         })
         .options({
-          outputPath: { type: 'string', demandOption: true },
+          outputPath: { type: 'string' },
           prettierConfigPath: { type: 'string' },
           relativeSupabasePath: { type: 'string' },
           supabaseExportName: { type: 'string' },
-          typesPath: { type: 'string', demandOption: true },
+          typesPath: { type: 'string' },
+        })
+        .check((argv) => {
+          if (!argv.configPath && (!argv.outputPath || !argv.typesPath)) {
+            throw new Error(
+              'When "configPath" is not provided, both "outputPath" and "typesPath" must be provided.'
+            );
+          }
+          return true;
         });
     },
     async (argv) => {
       const config: CliConfig = argv.configPath
         ? getConfigFile(argv.configPath)
-        : argv;
+        : (argv as CliConfig);
 
       await generate(config);
     }
