@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A CLI tool to automatically generate React Query hooks and TypeScript types for your Supabase Database, streamlining data fetching and enhancing developer productivity.",
   "main": "index.js",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen.git"
@@ -17,8 +18,7 @@
     "test-cli-config-json": "npm run test-cli -- generate example-codegen.config.json",
     "test-cli-options": "npm run test-cli -- generate --outputPath example/generated.ts --typesPath example/database.types.ts --supabaseExportName supabase",
     "test-generate": "npm run build && node scripts/generate.js",
-    "test:watch": "jest --watch",
-    "npm-publish": "npm run build && npm publish"
+    "test:watch": "jest --watch"
   },
   "bin": {
     "supabase-react-query-codegen": "./dist/cli.js"
@@ -41,6 +41,16 @@
     "url": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen/issues"
   },
   "homepage": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen#readme",
+  "dependencies": {
+    "pluralize": "^8.0.0",
+    "prettier": "^2.8.7",
+    "ts-morph": "^18.0.0",
+    "yargs": "^17.7.1"
+  },
+  "peerDependencies": {
+    "@supabase/supabase-js": "^2.20.0",
+    "react-query": "^3.39.3"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.0",
     "@types/pluralize": "^0.0.29",
@@ -59,10 +69,6 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
-  "peerDependencies": {
-    "@supabase/supabase-js": "^2.20.0",
-    "react-query": "^3.39.3"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -70,11 +76,5 @@
   },
   "lint-staged": {
     "*.{js,ts}": "npm run lint:fix"
-  },
-  "dependencies": {
-    "pluralize": "^8.0.0",
-    "prettier": "^2.8.7",
-    "ts-morph": "^18.0.0",
-    "yargs": "^17.7.1"
   }
 }
