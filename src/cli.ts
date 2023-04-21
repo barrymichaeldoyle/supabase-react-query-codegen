@@ -1,27 +1,13 @@
 #!/usr/bin/env node
-/* eslint-disable @typescript-eslint/no-var-requires */
 
-import path from 'path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import generate, { Config } from './generate';
+import { getConfigFile } from './utils/getConfigFile/getConfigFile';
 
 interface CliConfig extends Config {
   configPath?: string;
-}
-
-// Get the config file from the command line arguments
-function getConfigFile(configPath: string): Config {
-  const absoluteConfigPath = path.resolve(process.cwd(), configPath);
-  try {
-    const configFile = require(absoluteConfigPath);
-    return configFile;
-  } catch (error) {
-    throw new Error(
-      `Config file not found or could not be loaded at "${absoluteConfigPath}"`
-    );
-  }
 }
 
 yargs(hideBin(process.argv))

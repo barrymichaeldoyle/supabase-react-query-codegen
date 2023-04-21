@@ -5,7 +5,7 @@ interface FormatContentArgs {
   prettierConfigPath?: string;
 }
 
-export async function formatContent({
+export async function formatGeneratedContent({
   generatedFileContent,
   prettierConfigPath = '.prettierrc',
 }: FormatContentArgs): Promise<string> {

@@ -3,7 +3,7 @@ import fs from 'fs';
 import { getTablesProperties } from './utils/getTablesProperties/getTablesProperties';
 import { generateTypes } from './utils/generateTypes/generateTypes';
 import { generateHooks } from './utils/generateHooks/generateHooks';
-import { formatContent } from './utils/formatContent/formatContent';
+import { formatGeneratedContent } from './utils/formatGeneratedContent/formatGeneratedContent';
 import { importSupabase } from './utils/importSupabase/importSupabase';
 
 export interface Config {
@@ -52,7 +52,7 @@ ${types.join('\n')}
 ${hooks.join('\n\n')}
 `;
 
-  const formattedFileContent = await formatContent({
+  const formattedFileContent = await formatGeneratedContent({
     generatedFileContent,
     prettierConfigPath,
   });
