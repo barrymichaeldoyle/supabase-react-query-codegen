@@ -5,6 +5,16 @@
 
 A CLI tool to automatically generate React Query hooks and TypeScript types for your Supabase Database, streamlining data fetching and enhancing developer productivity.
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Generated Types](#generated-types)
+- [Generated Hooks](#generated-hooks)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Features
 
 - Automatically generates TypeScript types and React Query hooks for your Supabase database.
@@ -33,7 +43,7 @@ yarn global add supabase-react-query-codegen
 supabase gen types typescript --project-id "<your-project-id>" --schema public > path/to/types.ts
 ```
 
-2. Create a `supabase-react-query-codegen.config.json` file witht he following properties:
+2. Create a `supabase-react-query-codegen.config.json` file with the following properties:
 ```json
 {
   // required
@@ -53,6 +63,15 @@ supabase gen types typescript --project-id "<your-project-id>" --schema public >
 npx supabase-react-query-codegen generate supabase-react-query-codegen.config.json
 ```
 
+## Generated Types
+
+For convenience this tool also generates types from your Database schema.
+The following types will be generated for each table in your database, if you have a table called `todo_items` then you will get these types:
+
+- `TodoItem`
+- `AddTodoItemRequest`
+- `UpdateTodoItemRequest`
+
 ## Generated Hooks
 
 The following hooks will be generated for each table in your database, if you have a table called `todo_items` then you will get these hooks:
@@ -65,21 +84,11 @@ The following hooks will be generated for each table in your database, if you ha
 
 Note that `todo_items` is converted to PascalCase in the hook names.
 
-## Generated Types
-
-For convience this tool also generates types from your Database schema.
-The following types will be generated for each table in your database, if you have a table called `todo_items` then you will get these types:
-
-- `TodoItem`
-- `AddTodoItemRequest`
-- `UpdateTodoItemRequest`
-
-
 ## Contributing
 
 Contributions are welcome! If you find a bug or have a feature request, please open an issue on the GitHub repository. If you'd like to contribute code, feel free to fork the repository and submit a pull request.
 
-### Contributers
+### Contributors
 
 Get yourself added to this list by helping me out wherever you can!
 
