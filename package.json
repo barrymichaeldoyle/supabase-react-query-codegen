@@ -18,7 +18,7 @@
     "test-cli-options": "npm run test-cli -- generate --outputPath example/generated.ts --typesPath example/database.types.ts --supabaseExportName supabase",
     "test-generate": "npm run build && node scripts/generate.js",
     "test:watch": "jest --watch",
-    "publish": "npm run build && npm publish"
+    "npm-publish": "npm run build && npm publish"
   },
   "bin": {
     "supabase-react-query-codegen": "./dist/cli.js"
