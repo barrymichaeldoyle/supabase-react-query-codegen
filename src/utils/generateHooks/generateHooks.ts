@@ -32,7 +32,7 @@ export function generateHooks({
         .single();
       if (error) throw error;
       if (!data) throw new Error('No data found');
-      return data;
+      return data as ${getRowType};
     },
     { enabled: !!id }
   );
