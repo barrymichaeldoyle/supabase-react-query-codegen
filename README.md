@@ -1,27 +1,27 @@
-[![npm version](https://img.shields.io/npm/v/supabase-react-query-codegen.svg)](https://www.npmjs.com/package/supabase-react-query-codegen) [![npm](https://img.shields.io/npm/dt/supabase-react-query-codegen.svg)](https://www.npmjs.com/package/supabase-react-query-codegen)
+[![npm version](https://img.shields.io/npm/v/supabase-react-query-codegen.svg)](https://www.npmjs.com/package/supabase-react-query-codegen) [![npm](https://img.shields.io/npm/dt/supabase-react-query-codegen.svg)](https://www.npmjs.com/package/supabase-react-query-codegen) 
  [![Known Vulnerabilities](https://snyk.io/test/github/barrymichaeldoyle/supabase-react-query-codegen/badge.svg)](https://snyk.io/test/github/barrymichaeldoyle/supabase-react-query-codegen) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Supabase React Query Codegen
+# Supabase React Query Codegen 🚀
 
 A CLI tool to automatically generate React Query hooks and TypeScript types for your Supabase Database, streamlining data fetching and enhancing developer productivity.
 
-## Table of Contents
+## Table of Contents  📚
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Generated Types](#generated-types)
-- [Generated Hooks](#generated-hooks)
-- [Contributing](#contributing)
-- [License](#license)
+- [Features ⭐️](#features)
+- [Installation 📥](#installation)
+- [Usage 🛠️](#usage)
+- [Generated Types 🚧](#generated-types)
+- [Generated Hooks 🔍](#generated-hooks)
+- [Contributing 🤝](#contributing)
+- [License 📜](#license)
 
-## Features
+## Features ⭐️
 
 - Automatically generates TypeScript types and React Query hooks for your Supabase database.
 - Reduces manual work and the likelihood of errors.
 - Increases developer productivity by providing ready-to-use hooks for fetching data.
 
-## Installation
+## Installation 📥
 
 Install the package globally using npm:
 
@@ -35,7 +35,7 @@ Or with Yarn:
 yarn global add supabase-react-query-codegen
 ```
 
-## Usage
+## Usage 🛠️
 
 1. First, generate a TypeScript types file for your Supabase database (if you haven't already):
 
@@ -63,7 +63,7 @@ supabase gen types typescript --project-id "<your-project-id>" --schema public >
 npx supabase-react-query-codegen generate supabase-react-query-codegen.config.json
 ```
 
-## Generated Types
+## Generated Types 🚧
 
 For convenience this tool also generates types from your Database schema.
 The following types will be generated for each table in your database, if you have a table called `todo_items` then you will get these types:
@@ -72,7 +72,11 @@ The following types will be generated for each table in your database, if you ha
 - `AddTodoItemRequest`
 - `UpdateTodoItemRequest`
 
-## Generated Hooks
+### Alternatives 🔄
+
+This project has been developed in collaboration with the [Better Supabase Types](https://github.com/FroggyPanda/better-supabase-types) CLI tool made by [FroggyPanda](https://github.com/FroggyPanda). If you don't use React Query but like the types generation part of this tool, it may be worth checking them out! ❤️
+
+## Generated Hooks 🔍
 
 The following hooks will be generated for each table in your database, if you have a table called `todo_items` then you will get these hooks:
 
@@ -84,18 +88,19 @@ The following hooks will be generated for each table in your database, if you ha
 
 Note that `todo_items` is converted to PascalCase in the hook names.
 
-## Contributing
+## Contributing 🤝
 
 Contributions are welcome! If you find a bug or have a feature request, please open an issue on the GitHub repository. If you'd like to contribute code, feel free to fork the repository and submit a pull request.
 
-### Contributors
+### Contributors 👥
 
 Get yourself added to this list by helping me out wherever you can!
 
 - [@barrymichaeldoyle](https://github.com/barrymichaeldoyle) (Founder)
+- [@FroggyPanda](https://github.com/FroggyPanda) (Collaborator)
 - [@SirGoaty](https://github.com/sirgoaty) (Research and Testing)
 - [@WagnerA117](https://github.com/WagnerA117) (Research and Testing)
 
-## License
+## License 📜
 
 MIT
