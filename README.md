@@ -7,13 +7,13 @@ A CLI tool to automatically generate React Query hooks and TypeScript types for 
 
 ## Table of Contents  📚
 
-- [Features ⭐️](#features)
-- [Installation 📥](#installation)
-- [Usage 🛠️](#usage)
-- [Generated Types 🚧](#generated-types)
-- [Generated Hooks 🔍](#generated-hooks)
-- [Contributing 🤝](#contributing)
-- [License 📜](#license)
+- [Features ⭐️](#features-⭐️)
+- [Installation 📥](#installation-📥)
+- [Usage 🛠️](#usage-🛠️)
+- [Generated Types 🚧](#generated-types-🚧)
+- [Generated Hooks 🔍](#generated-hooks-🔍)
+- [Contributing 🤝](#contributing-🤝)
+- [License 📜](#license-📜)
 
 ## Features ⭐️
 
