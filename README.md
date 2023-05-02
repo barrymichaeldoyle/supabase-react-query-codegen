@@ -1,7 +1,7 @@
 <p style="text-align: center;">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/supabase-and-react-query-codegen-dark-mode.png">
-    <img alt="Supabase and react query codegen" src="./assets/supabase-and-react-query-codegen-light-mode.png" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/banner-dark-mode.png">
+    <img alt="Supabase and react query codegen" src="./assets/banner-light-mode.png" width="100%">
   </picture>
 </p>
 
@@ -105,6 +105,7 @@ Get yourself added to this list by helping me out wherever you can!
 
 - [@barrymichaeldoyle](https://github.com/barrymichaeldoyle) (Founder)
 - [@FroggyPanda](https://github.com/FroggyPanda) (Collaborator)
+- [@MegsSwanepoel](https://github.com/MegsSwanepoel) (Banner Design)
 - [@SirGoaty](https://github.com/sirgoaty) (Research and Testing)
 - [@WagnerA117](https://github.com/WagnerA117) (Research and Testing)
 
