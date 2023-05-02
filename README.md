@@ -1,12 +1,9 @@
-<style>
-@media (prefers-color-scheme: dark) {
-    .banner-image {
-        content: url(./assets/example-dark-image.png);
-        filter: none;
-    }
-}
-</style>
-<img src="./assets/supabase-and-react-query-codegen-light-mode.png" alt="Alt Text" class="banner-image"/>
+<p style="text-align: center;">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/supabase-and-react-query-codegen-light-mode.png">
+    <img alt="Supabase and react query codegen" src="./assets/supabase-and-react-query-codegen-dark-mode.png" width="100%">
+  </picture>
+</p>
 
 [![npm version](https://img.shields.io/npm/v/supabase-react-query-codegen.svg)](https://www.npmjs.com/package/supabase-react-query-codegen) [![npm](https://img.shields.io/npm/dt/supabase-react-query-codegen.svg)](https://www.npmjs.com/package/supabase-react-query-codegen) 
  [![Known Vulnerabilities](https://snyk.io/test/github/barrymichaeldoyle/supabase-react-query-codegen/badge.svg)](https://snyk.io/test/github/barrymichaeldoyle/supabase-react-query-codegen) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
