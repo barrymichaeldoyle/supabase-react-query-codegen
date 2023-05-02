@@ -1,7 +1,7 @@
 <p style="text-align: center;">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/supabase-and-react-query-codegen-light-mode.png">
-    <img alt="Supabase and react query codegen" src="./assets/supabase-and-react-query-codegen-dark-mode.png" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/supabase-and-react-query-codegen-dark-mode.png">
+    <img alt="Supabase and react query codegen" src="./assets/supabase-and-react-query-codegen-light-mode.png" width="100%">
   </picture>
 </p>
 
