@@ -1,6 +1,0 @@
-@media (prefers-color-scheme: dark) {
-  .banner-image {
-      content: url('./assets/example-light-image.png');
-      filter: none;
-  }
-}
