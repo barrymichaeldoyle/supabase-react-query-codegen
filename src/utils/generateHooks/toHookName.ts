@@ -6,7 +6,7 @@ interface ToHookNameArgs {
 }
 
 export function toHookName({ tableName, operation }: ToHookNameArgs): string {
-  const pascalCaseTableName = tableName.replace(/(?:^|_)(\w)/g, (_, char) =>
+  const pascalCaseTableName = tableName.replace(/(?:^|_|-)(\w)/g, (_, char) =>
     char.toUpperCase()
   );
 
