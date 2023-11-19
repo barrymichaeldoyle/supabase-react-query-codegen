@@ -103,8 +103,9 @@ Contributions are welcome! If you find a bug or have a feature request, please o
 
 Get yourself added to this list by helping me out wherever you can!
 
-- [@barrymichaeldoyle](https://github.com/barrymichaeldoyle) (Founder)
+- [@BarryMichaelDoyle](https://github.com/barrymichaeldoyle) (Founder)
 - [@FroggyPanda](https://github.com/FroggyPanda) (Collaborator)
+- [@pntrivedy](https://github.com/pntrivedy) (Collaborator)
 - [@MegsSwanepoel](https://github.com/MegsSwanepoel) (Banner Design)
 - [@SirGoaty](https://github.com/sirgoaty) (Research and Testing)
 - [@WagnerA117](https://github.com/WagnerA117) (Research and Testing)
