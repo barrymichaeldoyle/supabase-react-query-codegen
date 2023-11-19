@@ -43,4 +43,11 @@ describe('toTypeName', () => {
       'UpdatePartyRequest'
     );
   });
+
+  it('should return the type name for a table named `to-do` (singualize lib test)', () => {
+    expect(toTypeName({ operation: 'Get', tableName: 'to-do' })).toBe('ToDo');
+    expect(toTypeName({ operation: 'Update', tableName: 'to-do' })).toBe(
+      'UpdateToDoRequest'
+    );
+  });
 });

@@ -6,7 +6,7 @@ interface ToTypeNameArgs {
 }
 
 export function toTypeName({ tableName, operation }: ToTypeNameArgs): string {
-  const pascalCaseTableName = tableName.replace(/(?:^|_)(\w)/g, (_, char) =>
+  const pascalCaseTableName = tableName.replace(/(?:^|_|-)(\w)/g, (_, char) =>
     char.toUpperCase()
   );
 

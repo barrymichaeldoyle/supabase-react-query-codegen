@@ -57,4 +57,13 @@ describe('toHookName', () => {
       'useGetAllParties'
     );
   });
+
+  it('should return the hook name for a table named `to-do` (singualize lib test)', () => {
+    expect(toHookName({ tableName: 'to-do', operation: 'Delete' })).toBe(
+      'useDeleteToDo'
+    );
+    expect(toHookName({ tableName: 'to-do', operation: 'GetAll' })).toBe(
+      'useGetAllToDos'
+    );
+  });
 });
