@@ -51,7 +51,7 @@ supabase gen types typescript --project-id "<your-project-id>" --schema public >
 ```
 
 2. Create a `supabase-react-query-codegen.config.json` file with the following properties:
-```json
+```json5
 {
   // required
   "outputPath": "src/generated.ts", // path where generated code will go
