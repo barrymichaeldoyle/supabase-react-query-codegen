@@ -44,12 +44,12 @@
   "dependencies": {
     "pluralize": "^8.0.0",
     "prettier": "^2.8.8",
-    "ts-morph": "^18.0.0",
+    "ts-morph": "^22.0.0",
     "yargs": "^17.7.2"
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.20.0",
-    "react-query": "^3.39.3"
+    "@tanstack/react-query": "^5.36.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
@@ -66,8 +66,8 @@
     "jest": "^29.5.0",
     "lint-staged": "^13.2.1",
     "ts-jest": "^29.1.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   },
   "husky": {
     "hooks": {
