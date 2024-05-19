@@ -33,7 +33,7 @@ export function getTablesProperties(typesPath: string) {
   const publicType = publicProperty?.getDeclaredType();
 
   if (!publicType) {
-    throw new Error('No public property found within the Database interface.');
+    throw new Error('No public property found within the Database type.');
   }
 
   const tablesProperty = publicType
@@ -41,7 +41,7 @@ export function getTablesProperties(typesPath: string) {
     .find((property) => property.getName() === 'Tables');
 
   if (!tablesProperty) {
-    throw new Error('No Tables property found within the Database interface.');
+    throw new Error('No Tables property found within the Database type.');
   }
 
   const tablesType = project
