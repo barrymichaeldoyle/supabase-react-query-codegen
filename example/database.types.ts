@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json }
   | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       todo_items: {
@@ -60,4 +60,4 @@ export interface Database {
       [_ in never]: never;
     };
   };
-}
+};

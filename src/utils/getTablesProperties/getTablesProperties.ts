@@ -13,41 +13,29 @@ export function getTablesProperties(typesPath: string) {
 
   const sourceFile = project.addSourceFileAtPath(typesPath);
 
-  const types = sourceFile.getTypeAliases();
-
   // Find the 'Tables' type alias
-  const dbTypeRef = types.find((type) => type.getName() === 'Database');
+  const dbTypeAlias = sourceFile.getTypeAlias('Database');
 
-  if (!dbTypeRef) {
+  if (!dbTypeAlias) {
     throw new Error('No Database type alias found.');
   }
 
-  const databaseType = dbTypeRef.getType();
+  const databaseType = dbTypeAlias.getType();
 
   if (!databaseType) {
     throw new Error('No Database type found.');
   }
 
-  // const databaseInterface = sourceFile.getTypeAliasOrThrow('Database');
-  const publicProperty = databaseType.getProperty('public');
-  const publicType = publicProperty?.getDeclaredType();
+  const publicType = databaseType
+    .getPropertyOrThrow('public')
+    .getValueDeclarationOrThrow()
+    .getType();
 
-  if (!publicType) {
-    throw new Error('No public property found within the Database type.');
-  }
+  const tablesType = publicType
+    .getPropertyOrThrow('Tables')
+    .getValueDeclarationOrThrow()
+    .getType();
 
-  const tablesProperty = publicType
-    .getApparentProperties()
-    .find((property) => property.getName() === 'Tables');
-
-  if (!tablesProperty) {
-    throw new Error('No Tables property found within the Database type.');
-  }
-
-  const tablesType = project
-    .getProgram()
-    .getTypeChecker()
-    .getTypeAtLocation(tablesProperty.getValueDeclarationOrThrow());
   const tablesProperties = tablesType.getProperties();
 
   if (tablesProperties.length === 0) {
