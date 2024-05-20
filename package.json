@@ -6,7 +6,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DaleMcNair/supabase-react-query-codegen.git"
+    "url": "git+https://github.com/barrymichaeldoyle/supabase-react-query-codegen.git"
   },
   "scripts": {
     "build": "tsc",
@@ -38,9 +38,9 @@
   "author": "Barry Michael Doyle <barry@barrymichaeldoyle.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DaleMcNair/supabase-react-query-codegen/issues"
+    "url": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen/issues"
   },
-  "homepage": "https://github.com/DaleMcNair/supabase-react-query-codegen#readme",
+  "homepage": "https://github.com/barrymichaeldoyle/supabase-react-query-codegen#readme",
   "dependencies": {
     "pluralize": "^8.0.0",
     "prettier": "^2.8.8",
