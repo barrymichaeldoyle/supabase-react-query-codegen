@@ -43,163 +43,179 @@ export type UpdateProfileRequest = {
 };
 
 export function useGetTodoItem(id: string) {
-  return useQuery<TodoItem, Error>(
-    ['todo_items', id],
-    async () => {
+  return useQuery<TodoItem, Error>({
+    queryKey: ['todo_items', id],
+    queryFn: async () => {
       const { data, error } = await supabase
         .from('todo_items')
         .select('*')
         .eq('id', id)
         .single();
-      if (error) throw error;
-      if (!data) throw new Error('No data found');
-      return data;
+      if (error) {
+        throw error;
+      }
+      if (!data) {
+        throw new Error('No data found');
+      }
+      return data as TodoItem;
     },
-    { enabled: !!id }
-  );
+  });
 }
 
 export function useGetAllTodoItems() {
-  return useQuery<TodoItem[], Error>(['todo_items'], async () => {
-    const { data, error } = await supabase.from('todo_items').select();
-    if (error) throw error;
-    return data as TodoItem[];
+  return useQuery<TodoItem[], Error>({
+    queryKey: ['todo_items'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('todo_items').select();
+      if (error) {
+        throw error;
+      }
+      return data as TodoItem[];
+    },
   });
 }
 
 export function useAddTodoItem() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (item: AddTodoItemRequest) => {
+  return useMutation({
+    mutationFn: async (item: AddTodoItemRequest) => {
       const { error } = await supabase.from('todo_items').insert(item).single();
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todo_items');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todo_items'] });
+    },
+  });
 }
 
 export function useUpdateTodoItem() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (item: UpdateTodoItemRequest) => {
+  return useMutation({
+    mutationFn: async (item: UpdateTodoItemRequest) => {
       const { error } = await supabase
         .from('todo_items')
         .update(item.changes)
         .eq('id', item.id)
         .single();
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todo_items');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todo_items'] });
+    },
+  });
 }
 
 export function useDeleteTodoItem() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (id: string) => {
+  return useMutation({
+    mutationFn: async (id: string) => {
       const { error } = await supabase
         .from('todo_items')
         .delete()
         .eq('id', id)
         .single();
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todo_items');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todo_items'] });
+    },
+  });
 }
 
 export function useGetProfile(id: string) {
-  return useQuery<Profile, Error>(
-    ['profiles', id],
-    async () => {
+  return useQuery<Profile, Error>({
+    queryKey: ['profiles', id],
+    queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', id)
         .single();
-      if (error) throw error;
-      if (!data) throw new Error('No data found');
-      return data;
+      if (error) {
+        throw error;
+      }
+      if (!data) {
+        throw new Error('No data found');
+      }
+      return data as Profile;
     },
-    { enabled: !!id }
-  );
+  });
 }
 
 export function useGetAllProfiles() {
-  return useQuery<Profile[], Error>(['profiles'], async () => {
-    const { data, error } = await supabase.from('profiles').select();
-    if (error) throw error;
-    return data as Profile[];
+  return useQuery<Profile[], Error>({
+    queryKey: ['profiles'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('profiles').select();
+      if (error) {
+        throw error;
+      }
+      return data as Profile[];
+    },
   });
 }
 
 export function useAddProfile() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (item: AddProfileRequest) => {
+  return useMutation({
+    mutationFn: async (item: AddProfileRequest) => {
       const { error } = await supabase.from('profiles').insert(item).single();
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('profiles');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['profiles'] });
+    },
+  });
 }
 
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (item: UpdateProfileRequest) => {
+  return useMutation({
+    mutationFn: async (item: UpdateProfileRequest) => {
       const { error } = await supabase
         .from('profiles')
         .update(item.changes)
         .eq('id', item.id)
         .single();
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('profiles');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['profiles'] });
+    },
+  });
 }
 
 export function useDeleteProfile() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (id: string) => {
+  return useMutation({
+    mutationFn: async (id: string) => {
       const { error } = await supabase
         .from('profiles')
         .delete()
         .eq('id', id)
         .single();
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('profiles');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['profiles'] });
+    },
+  });
 }
