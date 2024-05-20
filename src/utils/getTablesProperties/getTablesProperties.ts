@@ -13,20 +13,20 @@ export function getTablesProperties(typesPath: string) {
 
   const sourceFile = project.addSourceFileAtPath(typesPath);
 
-  // Find the 'Tables' type alias
+  // Find the 'Tables' property within the 'Database' type alias
   const dbTypeAlias = sourceFile.getTypeAlias('Database');
 
   if (!dbTypeAlias) {
     throw new Error('No Database type alias found.');
   }
 
-  const databaseType = dbTypeAlias.getType();
+  const dbType = dbTypeAlias.getType();
 
-  if (!databaseType) {
+  if (!dbType) {
     throw new Error('No Database type found.');
   }
 
-  const publicType = databaseType
+  const publicType = dbType
     .getPropertyOrThrow('public')
     .getValueDeclarationOrThrow()
     .getType();
