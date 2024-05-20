@@ -22,9 +22,9 @@ export function generateHooks({
       operation: 'Get',
       tableName,
     })}(id: string) {
-  return useQuery<${getRowType}, Error>(
-    ['${tableName}', id],
-    async () => {
+  return useQuery<${getRowType}, Error>({
+    queryKey: ['${tableName}', id],
+    queryFn: async () => {
       const { data, error } = await ${supabase}
         .from('${tableName}')
         .select('*')
@@ -34,20 +34,22 @@ export function generateHooks({
       if (!data) throw new Error('No data found');
       return data as ${getRowType};
     },
-    { enabled: !!id }
-  );
-}`,
-    `export function ${toHookName({ operation: 'GetAll', tableName })}() {
-  return useQuery<${getRowType}[], Error>(['${tableName}'], async () => {
-    const { data, error } = await ${supabase}.from('${tableName}').select();
-    if (error) throw error;
-    return data as ${getRowType}[];
   });
 }`,
+    `export function ${toHookName({ operation: 'GetAll', tableName })}() {
+      return useQuery<${getRowType}[], Error>({
+        queryKey: ['${tableName}'], 
+        queryFn: async () => {
+          const { data, error } = await ${supabase}.from('${tableName}').select();
+          if (error) throw error;
+            return data as ${getRowType}[];
+          },
+        });
+      }`,
     `export function ${toHookName({ operation: 'Add', tableName })}() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (item: ${addRowType}) => {
+  return useMutation({
+    mutationFn: async (item: ${addRowType}) => {
       const { error } = await ${supabase}
         .from('${tableName}')
         .insert(item)
@@ -55,17 +57,15 @@ export function generateHooks({
       if (error) throw error;
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('${tableName}');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries('${tableName}');
+    },
+  });
 }`,
     `export function ${toHookName({ operation: 'Update', tableName })}() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (item: ${updateRowType}) => {
+  return useMutation({
+    mutationFn: async (item: ${updateRowType}) => {
       const { error } = await ${supabase}
         .from('${tableName}')
         .update(item.changes)
@@ -74,17 +74,15 @@ export function generateHooks({
       if (error) throw error;
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('${tableName}');
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries('${tableName}');
+    },
+  });
 }`,
     `export function ${toHookName({ operation: 'Delete', tableName })}() {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (id: string) => {
+  return useMutation({
+    mutationFn: async (id: string) => {
       const { error} = await ${supabase}
         .from('${tableName}')
         .delete()
@@ -93,12 +91,10 @@ export function generateHooks({
       if (error) throw error;
       return null;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('${tableName}');
-      }
+    onSuccess: () => {
+      queryClient.invalidateQueries('${tableName}');
     }
-  );
+  });
 }`
   );
 
