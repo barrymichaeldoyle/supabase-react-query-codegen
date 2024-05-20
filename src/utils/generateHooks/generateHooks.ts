@@ -34,6 +34,7 @@ export function generateHooks({
       if (!data) throw new Error('No data found');
       return data as ${getRowType};
     },
+    enabled: !!id
   });
 }`,
     `export function ${toHookName({ operation: 'GetAll', tableName })}() {
