@@ -58,7 +58,7 @@ export function generateHooks({
       return null;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('${tableName}');
+      queryClient.invalidateQueries({queryKey: ['${tableName}']});
     },
   });
 }`,
@@ -75,7 +75,7 @@ export function generateHooks({
       return null;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('${tableName}');
+      queryClient.invalidateQueries({queryKey: ['${tableName}']});
     },
   });
 }`,
@@ -92,7 +92,7 @@ export function generateHooks({
       return null;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('${tableName}');
+      queryClient.invalidateQueries({queryKey: ['${tableName}']});
     }
   });
 }`
