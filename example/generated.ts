@@ -59,6 +59,7 @@ export function useGetTodoItem(id: string) {
       }
       return data as TodoItem;
     },
+    enabled: !!id
   });
 }
 
@@ -148,6 +149,7 @@ export function useGetProfile(id: string) {
       }
       return data as Profile;
     },
+    enabled: !!id
   });
 }
 
