@@ -44,7 +44,7 @@
   "dependencies": {
     "pluralize": "^8.0.0",
     "prettier": "^2.8.8",
-    "ts-morph": "^18.0.0",
+    "ts-morph": "^24.0.0",
     "yargs": "^17.7.2"
   },
   "peerDependencies": {
