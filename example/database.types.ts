@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json }
   | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       todo_items: {
@@ -28,6 +28,7 @@ export interface Database {
           id?: string;
           name?: string;
         };
+        Relationships: [];
       };
       profiles: {
         Row: {
@@ -45,6 +46,7 @@ export interface Database {
           id?: string;
           last_name?: string | null;
         };
+        Relationships: [];
       };
     };
     Views: {
@@ -60,4 +62,4 @@ export interface Database {
       [_ in never]: never;
     };
   };
-}
+};
