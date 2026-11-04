@@ -15,6 +15,7 @@ A CLI tool to automatically generate React Query hooks and TypeScript types for 
 ## Table of Contents  📚
 
 - [Features ⭐️](#features-⭐️)
+- [Requirements 📋](#requirements-📋)
 - [Installation 📥](#installation-📥)
 - [Usage 🛠️](#usage-🛠️)
 - [Generated Types 🚧](#generated-types-🚧)
@@ -27,6 +28,14 @@ A CLI tool to automatically generate React Query hooks and TypeScript types for 
 - Automatically generates TypeScript types and React Query hooks for your Supabase database.
 - Reduces manual work and the likelihood of errors.
 - Increases developer productivity by providing ready-to-use hooks for fetching data.
+
+## Requirements 📋
+
+- [`@tanstack/react-query`](https://tanstack.com/query) v4 or v5
+- [`@supabase/supabase-js`](https://github.com/supabase/supabase-js) v2
+- A types file from `supabase gen types typescript` (both the current `type Database` output and the older `interface Database` output work)
+
+> **Upgrading from 1.x?** Version 2 generates hooks for `@tanstack/react-query` using the object syntax. If you're still on `react-query` v3, stay on `supabase-react-query-codegen@1`.
 
 ## Installation 📥
 

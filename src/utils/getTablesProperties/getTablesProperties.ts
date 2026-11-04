@@ -14,9 +14,18 @@ export function getTablesProperties(typesPath: string) {
   const sourceFile = project.addSourceFileAtPath(typesPath);
 
   // Find the 'Tables' type alias
-  const databaseInterface = sourceFile.getInterfaceOrThrow('Database');
-  const publicProperty = databaseInterface.getPropertyOrThrow('public');
-  const publicType = publicProperty.getType();
+  // `supabase gen types` emits `export type Database = {...}`; older
+  // versions emitted `export interface Database {...}`. Support both.
+  const databaseDeclaration =
+    sourceFile.getInterface('Database') ?? sourceFile.getTypeAlias('Database');
+  if (!databaseDeclaration) {
+    throw new Error(`No Database type or interface found in ${typesPath}.`);
+  }
+  const publicSymbol = databaseDeclaration.getType().getProperty('public');
+  if (!publicSymbol) {
+    throw new Error('No public schema found within the Database type.');
+  }
+  const publicType = publicSymbol.getTypeAtLocation(databaseDeclaration);
 
   const tablesProperty = publicType
     .getApparentProperties()
